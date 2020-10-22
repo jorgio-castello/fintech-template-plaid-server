@@ -4,7 +4,6 @@
 // 2. Custom -> Returns custom Response Types
 import HydratorConfig from '../interfaces/HydratorConfig';
 import HydratorMap from '../interfaces/Hydrator';
-import plaid from 'plaid';
 import path from 'path';
 
 export default class Hydrator {
@@ -30,6 +29,8 @@ export default class Hydrator {
         switch (hydratorType) {
             case HydratorMap.Accounts:
                 return hydratorSrc + '/Accounts.js';
+            case HydratorMap.Transactions:
+                return hydratorSrc + '/Transactions.js';
             default:
                 throw new Error('Invalid Hydrator Type');
         }

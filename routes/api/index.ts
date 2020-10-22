@@ -33,6 +33,7 @@ const plaidController:PlaidControllerType = new PlaidController(authenticationCo
 
 router.route('/getAccounts')
     .post(plaidController.getAccounts);
-    
+router.route('/getTransactions')
+    .post(plaidController.getTransactions);
 
 module.exports = router;
