@@ -5,7 +5,7 @@ interface accessTokenStore { // this will eventually need to be abstracted to da
     [key:string]: string,
 }
 
-class AuthenticationController {
+export default class AuthenticationController {
     plaidClient: plaid.Client;
     accessTokenStore: accessTokenStore = { jorge: process.env.PLAID_ACCESS_TOKEN || '' };
     
@@ -27,15 +27,12 @@ class AuthenticationController {
         });
     }
 
-    retrieveAccessToken(req: express.Request, res: express.Response): void { // Will need to fetch access token from db
-        const { user } = req.body;
-
-        if (this.accessTokenStore[user]) {
-            res.json({accessToken: this.accessTokenStore[user]});
-            return;
+    retrieveAccessToken(user: string): string { // Will need to fetch access token from db
+        if (this.accessTokenStore[user]) { // likely will do a DB lookup
+            return this.accessTokenStore[user];
         }
 
-        res.json({error: 'User not found'});
+        return '';
     }
 }
 
