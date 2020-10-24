@@ -21,9 +21,9 @@ export default class AuthenticationController {
         this.plaidClient.exchangePublicToken(publicToken, (error, response) => {
             if (error) {
                 // handle errors
+                throw new Error();
             }
-            const accessToken = response.access_token;
-            // Save this accessToken to user database
+            res.json({ accessToken: response.access_token });
         });
     }
 
