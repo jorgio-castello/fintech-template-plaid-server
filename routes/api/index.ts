@@ -18,8 +18,6 @@ const authenticationController:AuthenticationControllerType = new Authentication
 
 router.route('/exchangePublicToken')
     .post(authenticationController.exchangePublicToken);
-router.route('/retrieveAccessToken')
-    .post(authenticationController.retrieveAccessToken);
 
 // Hydrator Configuration
 import HydratorType from '../../hydrators/Hydrator';
@@ -29,7 +27,7 @@ const hydrator:HydratorType = new Hydrator();
 // Plaid Data Controllers & Routes
 import PlaidControllerType from '../../controllers/PlaidController';
 const PlaidController = require('../../controllers/PlaidController');
-const plaidController:PlaidControllerType = new PlaidController(authenticationController, plaidClient, hydrator);
+const plaidController:PlaidControllerType = new PlaidController(plaidClient, hydrator);
 
 router.route('/getAccounts')
     .post(plaidController.getAccounts);

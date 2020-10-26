@@ -2,15 +2,12 @@ import express = require('express');
 import plaid, { PlaidError } from 'plaid';
 import Hydrator from '../hydrators/Hydrator';
 import HydratorMap from '../interfaces/Hydrator';
-import AuthenticationController from './AuthenticationController';
 
 export default class PlaidController {
-    authController: AuthenticationController;
     plaidClient: plaid.Client;
     hydrator: Hydrator; 
     
-    constructor(AuthController: AuthenticationController, PlaidClient: plaid.Client, Hydrator: Hydrator) {
-        this.authController = AuthController;
+    constructor(PlaidClient: plaid.Client, Hydrator: Hydrator) {
         this.plaidClient = PlaidClient;
         this.hydrator = Hydrator;
 
@@ -19,8 +16,7 @@ export default class PlaidController {
     }
 
     getAccounts(req: express.Request, res: express.Response): void {
-        const { user } = req.body;
-        const accessToken = this.authController.retrieveAccessToken(user);
+        const { accessToken } = req.body;
         
         const plaidAccounts: Promise<plaid.AccountsResponse> = this.plaidClient.getAccounts(accessToken);
         plaidAccounts
@@ -33,8 +29,7 @@ export default class PlaidController {
     }
 
     getTransactions(req: express.Request, res: express.Response): void {
-        const { user, startDate, endDate } = req.body;
-        const accessToken = this.authController.retrieveAccessToken(user);
+        const { accessToken, startDate, endDate } = req.body;
 
         const plaidTransactions: Promise<plaid.TransactionsResponse> = this.plaidClient.getTransactions(accessToken, startDate, endDate);
         plaidTransactions
